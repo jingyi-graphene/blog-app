@@ -31,6 +31,13 @@ const IndivBlog = () => {
     navigate(`/edit_blog?id=${id}`);
   };
 
+  function formatBody(text) {
+    if (text != undefined){
+      return text.split(/\n+/).map(p => <p key={p}>{p}</p>);
+    }
+  }
+
+
   return (
     <>
       <div style={{ textAlign: "center", padding: "30px" }}>
@@ -44,9 +51,9 @@ const IndivBlog = () => {
             Edit
           </Button>
         </div>
-        <div style={{display: "flex", justifyContent: "center"}}>
+        <div style={{display: "flex", justifyContent: "center", textAlign: "left"}}>
           <Paper sx={{ padding: "40px", width: "80%" }}>
-            <Typography>{blog.body}</Typography>
+            {formatBody(blog.body)}
           </Paper>
         </div>
       </div>
