@@ -46,7 +46,6 @@ const Blogs = () => {
   const cardPerPage = 6
   const lastCard = page* cardPerPage
   const firstCard = lastCard-cardPerPage
-  const [currentBlogs, setCurrentBlogs]= useState([])
   const handlePageChange = (e, value) => {
     setPage(value);
   };
@@ -57,12 +56,11 @@ const Blogs = () => {
       .then((res) => {
         // console.log(res.data);
         setBlogs(res.data);
-        setCurrentBlogs(blogs.slice(firstCard, lastCard))
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [myState, currentBlogs]);
+  }, [myState, page]);
   return (
     <div>
       <ResponsiveAppBar />
@@ -84,7 +82,7 @@ const Blogs = () => {
       </Box>
       <div style={{ margin: 40 }}>
         <Grid container spacing={2}>
-          {currentBlogs.map((blog) => (
+          {blogs.slice(firstCard, lastCard).map((blog) => (
             <Grid item xs={6} key={blog.id}>
               <Card>
                 <CardContent>
