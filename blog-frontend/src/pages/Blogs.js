@@ -7,7 +7,9 @@ import {
   CardActions,
   CardContent,
   Grid,
+  Pagination,
   Paper,
+  TablePagination,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -39,6 +41,15 @@ const Blogs = () => {
   const createBlog = () => {
     navigate("/create_blog");
   };
+
+  const [page, setPage] = useState(1)
+  const cardPerPage = 6
+  const lastCard = page* cardPerPage
+  const firstCard = lastCard-cardPerPage
+  const [currentBlogs, setCurrentBlogs]= useState([])
+  const handlePageChange = (e, value) => {
+    setPage(value);
+  };
   useEffect(() => {
     // console.log(headers);
     axios
@@ -46,11 +57,12 @@ const Blogs = () => {
       .then((res) => {
         // console.log(res.data);
         setBlogs(res.data);
+        setCurrentBlogs(blogs.slice(firstCard, lastCard))
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [myState]);
+  }, [myState, currentBlogs]);
   return (
     <div>
       <ResponsiveAppBar />
@@ -64,7 +76,7 @@ const Blogs = () => {
         <Button
           variant="contained"
           color="primary"
-          sx={{ height: 40, marginRight:"40px" }}
+          sx={{ height: 40, marginRight: "40px" }}
           onClick={() => createBlog()}
         >
           New
@@ -72,7 +84,7 @@ const Blogs = () => {
       </Box>
       <div style={{ margin: 40 }}>
         <Grid container spacing={2}>
-          {blogs.map((blog) => (
+          {currentBlogs.map((blog) => (
             <Grid item xs={6} key={blog.id}>
               <Card>
                 <CardContent>
@@ -104,7 +116,9 @@ const Blogs = () => {
                     {blog.body}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+                <CardActions
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <Button variant="text" onClick={() => readBlog(blog.id)}>
                     Read More
                   </Button>
@@ -121,6 +135,15 @@ const Blogs = () => {
           ))}
         </Grid>
       </div>
+      <Box
+        sx={{
+          margin: "auto",
+          width: "fit-content",
+          alignItems: "center",
+        }}
+      >
+        <Pagination count={Math.ceil(blogs.length/cardPerPage)} page={page} onChange={handlePageChange} />
+      </Box>
     </div>
   );
 };
