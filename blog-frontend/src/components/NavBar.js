@@ -22,7 +22,7 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseNavMenu = (page) => {
-    console.log(page)
+    // console.log(page)
     if (page == "Blogs"){
         navigate('/blogs')
     }else if (page == "Log Out"){
@@ -86,7 +86,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={()=>handleCloseNavMenu(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
