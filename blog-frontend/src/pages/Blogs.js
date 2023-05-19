@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ResponsiveAppBar from "../components/NavBar";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -54,7 +55,7 @@ const Blogs = () => {
     axios
       .get(`http://localhost:8000/blog`, { headers })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setBlogs(res.data);
       })
       .catch((err) => {
@@ -82,7 +83,7 @@ const Blogs = () => {
       </Box>
       <div style={{ margin: 40 }}>
         <Grid container spacing={2}>
-          {blogs.slice(firstCard, lastCard).map((blog) => (
+          {blogs.length !=0 ? blogs.slice(firstCard, lastCard).map((blog) => (
             <Grid item xs={6} key={blog.id}>
               <Card>
                 <CardContent>
@@ -130,7 +131,7 @@ const Blogs = () => {
                 </CardActions>
               </Card>
             </Grid>
-          ))}
+          )): <Alert severity="info" sx={{width:"100%"}}>There are currently no blogs.</Alert>}
         </Grid>
       </div>
       <Box
